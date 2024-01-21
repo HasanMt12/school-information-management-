@@ -1,11 +1,21 @@
 const Navbar = require("../models/navabrMain.model");
 // create new gallery
 exports.createNavbarService = async (data) => {
-  const exist = await Navbar.find();
-  if (!exist) {
-    const result = await Navbar.create(data);
-    return result;
+  try {
+    const existingNavber = await Navbar.find();
+
+    if (existingNavber.length === 0) {
+      const result = await Navbar.create(data);
+      return result;
+    }
+
+    // Data already exists, handle accordingly (e.g., return an error or perform update logic)
+    return existingNavber;
+  } catch (error) {
+    console.error("Error in creategNavberservice:", error);
+    throw error; // Rethrow the error for better debugging
   }
+  
 };
 
 // read all gallery
